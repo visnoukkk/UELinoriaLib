@@ -4066,8 +4066,8 @@ function Library:CreateWindow(...)
                 Viewport.Parent = ScreenGui
 
                 local Camera = Instance.new("Camera")
-                Camera.FieldOfView = 40
-                Camera.CFrame = CFrame.new(0, 0, 10)
+                Camera.FieldOfView = 30
+                Camera.CFrame = CFrame.new(0, 0, 14)
                 Viewport.CurrentCamera = Camera
 
                 local Model = Instance.new("Model")
@@ -4076,7 +4076,7 @@ function Library:CreateWindow(...)
 
                 local function MakeLetterBlock()
                     local Block = Instance.new("Part")
-                    Block.Size = Vector3.new(6, 3, 0.25)
+                    Block.Size = Vector3.new(8, 4, 0.3)
                     Block.Transparency = 0
                     Block.Color = Color3.new(1, 1, 1)
                     Block.Material = Enum.Material.Neon
@@ -4088,6 +4088,8 @@ function Library:CreateWindow(...)
                         local Gui = Instance.new("SurfaceGui")
                         Gui.Face = faceNormal
                         Gui.LightInfluence = 0
+                        Gui.SizingMode = Enum.SurfaceGuiSizingMode.FixedSize
+                        Gui.CanvasSize = Vector2.new(800, 400)
                         Gui.Parent = Block
 
                         local Label = Instance.new("TextLabel")
@@ -4095,6 +4097,8 @@ function Library:CreateWindow(...)
                         Label.BackgroundTransparency = 1
                         Label.Text = "LE"
                         Label.TextColor3 = Color3.new(1, 1, 1)
+                        Label.TextStrokeTransparency = 0
+                        Label.TextStrokeColor3 = Color3.new(0, 0, 0)
                         Label.TextScaled = true
                         Label.Font = Enum.Font.GothamBold
                         Label.Rotation = flip and 180 or 0
@@ -4108,14 +4112,13 @@ function Library:CreateWindow(...)
                     Edge.Adornee = Block
                     Edge.Color3 = Color3.new(1, 1, 1)
                     Edge.Transparency = 0
-                    Edge.LineThickness = 0.05
-                    Edge.SurfaceTransparency = 0.5
+                    Edge.LineThickness = 0.04
+                    Edge.SurfaceTransparency = 0.6
                     Edge.Parent = Model
                 end
 
                 MakeLetterBlock()
 
-                local rotationX = 0
                 local rotationY = 0
                 local SpinConn
                 SpinConn = RenderStepped:Connect(function(dt)
@@ -4126,10 +4129,8 @@ function Library:CreateWindow(...)
                         return
                     end
 
-                    rotationY = rotationY + dt * 60
-                    rotationX = math.sin(rotationY * 0.5) * 0.6
-
-                    Model:PivotTo(CFrame.Angles(rotationX, rotationY, 0))
+                    rotationY = rotationY + dt * 28
+                    Model:PivotTo(CFrame.Angles(0, rotationY, 0))
                 end)
             end)
         end;
