@@ -4058,12 +4058,14 @@ function Library:CreateWindow(...)
             task.spawn(function()
                 local LogoFrame = Instance.new("Frame")
                 LogoFrame.Name = "LELogo"
-                LogoFrame.Size = UDim2.fromOffset(200, 200)
+                LogoFrame.Size = UDim2.fromOffset(300, 300)
                 LogoFrame.Position = UDim2.fromScale(0.5, 0.5)
                 LogoFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-                LogoFrame.BackgroundTransparency = 1
-                LogoFrame.ZIndex = 50
-                LogoFrame.Parent = Outer
+                LogoFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+                LogoFrame.BackgroundTransparency = 0.35
+                LogoFrame.BorderSizePixel = 0
+                LogoFrame.ZIndex = 0
+                LogoFrame.Parent = ScreenGui
 
                 local LogoText = Instance.new("TextLabel")
                 LogoText.Size = UDim2.fromScale(1, 1)
@@ -4074,45 +4076,25 @@ function Library:CreateWindow(...)
                 LogoText.TextStrokeColor3 = Color3.new(0, 0, 0)
                 LogoText.TextScaled = true
                 LogoText.Font = Enum.Font.GothamBold
-                LogoText.ZIndex = 51
+                LogoText.ZIndex = 1
                 LogoText.Parent = LogoFrame
 
                 local UIStroke = Instance.new("UIStroke")
                 UIStroke.Color = Color3.new(1, 1, 1)
                 UIStroke.Thickness = 3
-                UIStroke.Transparency = 0
-                UIStroke.Parent = LogoText
+                UIStroke.Transparency = 0.35
+                UIStroke.Parent = LogoFrame
 
-                local TweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-                local FadeIn = TweenService:Create(LogoText, TweenInfo, {TextTransparency = 0, TextStrokeTransparency = 0})
-                local FadeStroke = TweenService:Create(UIStroke, TweenInfo, {Transparency = 0})
-                LogoText.TextTransparency = 1
-                LogoText.TextStrokeTransparency = 1
-                UIStroke.Transparency = 1
-                FadeIn:Play()
-                FadeStroke:Play()
-
+                local spinSpeed = 60
                 local rotation = 0
-                local scale = 0
-                local ScaleTween = TweenService:Create(LogoFrame, TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.fromOffset(300, 300)})
-                LogoFrame.Size = UDim2.fromOffset(0, 0)
-                ScaleTween:Play()
-
                 local SpinConn
                 SpinConn = RenderStepped:Connect(function(dt)
                     if not Library.Toggled or not ScreenGui.Parent or not LogoFrame.Parent then
                         SpinConn:Disconnect()
-                        local FadeOut = TweenService:Create(LogoText, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {TextTransparency = 1, TextStrokeTransparency = 1})
-                        local FadeStrokeOut = TweenService:Create(UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Transparency = 1})
-                        local ShrinkTween = TweenService:Create(LogoFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.fromOffset(0, 0)})
-                        FadeOut:Play()
-                        FadeStrokeOut:Play()
-                        ShrinkTween:Play()
-                        ShrinkTween.Completed:Wait()
                         LogoFrame:Destroy()
                         return
                     end
-                    rotation = rotation + dt * 180
+                    rotation = rotation + dt * spinSpeed
                     LogoFrame.Rotation = rotation
                 end)
             end)
