@@ -1,12 +1,12 @@
---check if game is loaded
+-- check if game is loaded
 while not game:IsLoaded() do task.wait(0.1) end
 
 local ac = (gethui and gethui()) or game:GetService("CoreGui")
 
 -- ui links
-local bc = loadstring(game:HttpGet('https://raw.githubusercontent.com/visnoukkk/Creep.cc/refs/heads/main/Source.lua'))()
-local ci = loadstring(game:HttpGet('https://raw.githubusercontent.com/visnoukkk/Creep.cc/refs/heads/main/addons/ThemeManager.lua'))()
-local bx = loadstring(game:HttpGet('https://raw.githubusercontent.com/visnoukkk/Creep.cc/refs/heads/main/addons/SaveManager.lua'))()
+local bc = loadstring(game:HttpGet('https://raw.githubusercontent.com/visnoukkk/UELinoriaLib/refs/heads/main/Source.lua'))()
+local ci = loadstring(game:HttpGet('https://raw.githubusercontent.com/visnoukkk/UELinoriaLib/refs/heads/main/addons/ThemeManager.lua'))()
+local bx = loadstring(game:HttpGet('https://raw.githubusercontent.com/visnoukkk/UELinoriaLib/refs/heads/main/addons/SaveManager.lua'))()
 
 -- create window
 local dc = bc:CreateWindow({
