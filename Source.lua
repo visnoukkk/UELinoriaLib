@@ -4056,46 +4056,80 @@ function Library:CreateWindow(...)
             end);
 
             task.spawn(function()
-                local LogoFrame = Instance.new("Frame")
-                LogoFrame.Name = "LELogo"
-                LogoFrame.Size = UDim2.fromOffset(300, 300)
-                LogoFrame.Position = UDim2.fromScale(0.5, 0.5)
-                LogoFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-                LogoFrame.BackgroundColor3 = Color3.new(1, 1, 1)
-                LogoFrame.BackgroundTransparency = 0.35
-                LogoFrame.BorderSizePixel = 0
-                LogoFrame.ZIndex = 0
-                LogoFrame.Parent = ScreenGui
+                local Viewport = Instance.new("ViewportFrame")
+                Viewport.Name = "LELogo"
+                Viewport.Size = UDim2.fromOffset(320, 320)
+                Viewport.Position = UDim2.fromScale(0.5, 0.5)
+                Viewport.AnchorPoint = Vector2.new(0.5, 0.5)
+                Viewport.BackgroundTransparency = 1
+                Viewport.ZIndex = 0
+                Viewport.Parent = ScreenGui
 
-                local LogoText = Instance.new("TextLabel")
-                LogoText.Size = UDim2.fromScale(1, 1)
-                LogoText.BackgroundTransparency = 1
-                LogoText.Text = "LE"
-                LogoText.TextColor3 = Color3.new(1, 1, 1)
-                LogoText.TextStrokeTransparency = 0
-                LogoText.TextStrokeColor3 = Color3.new(0, 0, 0)
-                LogoText.TextScaled = true
-                LogoText.Font = Enum.Font.GothamBold
-                LogoText.ZIndex = 1
-                LogoText.Parent = LogoFrame
+                local Camera = Instance.new("Camera")
+                Camera.FieldOfView = 40
+                Camera.CFrame = CFrame.new(0, 0, 10)
+                Viewport.CurrentCamera = Camera
 
-                local UIStroke = Instance.new("UIStroke")
-                UIStroke.Color = Color3.new(1, 1, 1)
-                UIStroke.Thickness = 3
-                UIStroke.Transparency = 0.35
-                UIStroke.Parent = LogoFrame
+                local Model = Instance.new("Model")
+                Model.Name = "LEBlock"
+                Model.Parent = Viewport
 
-                local spinSpeed = 60
-                local rotation = 0
+                local function MakeLetterBlock()
+                    local Block = Instance.new("Part")
+                    Block.Size = Vector3.new(6, 3, 0.25)
+                    Block.Transparency = 0
+                    Block.Color = Color3.new(1, 1, 1)
+                    Block.Material = Enum.Material.Neon
+                    Block.Position = Vector3.new(0, 0, 0)
+                    Block.Anchored = true
+                    Block.Parent = Model
+
+                    local function MakeFace(faceNormal, flip)
+                        local Gui = Instance.new("SurfaceGui")
+                        Gui.Face = faceNormal
+                        Gui.LightInfluence = 0
+                        Gui.Parent = Block
+
+                        local Label = Instance.new("TextLabel")
+                        Label.Size = UDim2.fromScale(1, 1)
+                        Label.BackgroundTransparency = 1
+                        Label.Text = "LE"
+                        Label.TextColor3 = Color3.new(1, 1, 1)
+                        Label.TextScaled = true
+                        Label.Font = Enum.Font.GothamBold
+                        Label.Rotation = flip and 180 or 0
+                        Label.Parent = Gui
+                    end
+
+                    MakeFace(Enum.NormalId.Front, false)
+                    MakeFace(Enum.NormalId.Back, true)
+
+                    local Edge = Instance.new("SelectionBox")
+                    Edge.Adornee = Block
+                    Edge.Color3 = Color3.new(1, 1, 1)
+                    Edge.Transparency = 0
+                    Edge.LineThickness = 0.05
+                    Edge.SurfaceTransparency = 0.5
+                    Edge.Parent = Model
+                end
+
+                MakeLetterBlock()
+
+                local rotationX = 0
+                local rotationY = 0
                 local SpinConn
                 SpinConn = RenderStepped:Connect(function(dt)
-                    if not Library.Toggled or not ScreenGui.Parent or not LogoFrame.Parent then
+                    if not Library.Toggled or not ScreenGui.Parent or not Viewport.Parent then
                         SpinConn:Disconnect()
-                        LogoFrame:Destroy()
+                        Model:Destroy()
+                        Viewport:Destroy()
                         return
                     end
-                    rotation = rotation + dt * spinSpeed
-                    LogoFrame.Rotation = rotation
+
+                    rotationY = rotationY + dt * 60
+                    rotationX = math.sin(rotationY * 0.5) * 0.6
+
+                    Model:PivotTo(CFrame.Angles(rotationX, rotationY, 0))
                 end)
             end)
         end;
