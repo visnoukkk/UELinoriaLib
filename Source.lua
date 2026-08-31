@@ -4058,7 +4058,7 @@ function Library:CreateWindow(...)
             task.spawn(function()
                 local Viewport = Instance.new("ViewportFrame")
                 Viewport.Name = "LELogo"
-                Viewport.Size = UDim2.fromOffset(500, 300)
+                Viewport.Size = UDim2.fromOffset(400, 350)
                 Viewport.Position = UDim2.fromScale(0.5, 0.5)
                 Viewport.AnchorPoint = Vector2.new(0.5, 0.5)
                 Viewport.BackgroundTransparency = 1
@@ -4077,18 +4077,18 @@ function Library:CreateWindow(...)
                 local CUBE = 0.5
 
                 local L = {
-                    {1,0,0,0,0},
-                    {1,0,0,0,0},
-                    {1,0,0,0,0},
-                    {1,0,0,0,0},
-                    {1,1,1,1,1},
+                    {1,0,0},
+                    {1,0,0},
+                    {1,0,0},
+                    {1,0,0},
+                    {1,1,1},
                 }
                 local E = {
-                    {1,1,1,1,1},
-                    {1,0,0,0,0},
-                    {1,1,1,1,1},
-                    {1,0,0,0,0},
-                    {1,1,1,1,1},
+                    {1,1,1},
+                    {1,0,0},
+                    {1,1,1},
+                    {1,0,0},
+                    {1,1,1},
                 }
 
                 local function MakeCube(x, y, z)
@@ -4104,15 +4104,15 @@ function Library:CreateWindow(...)
 
                 -- L (centered)
                 for r = 1, 5 do
-                    for c = 1, 5 do
+                    for c = 1, 3 do
                         if L[r][c] == 1 then
-                            MakeCube((c - 5.5) * CUBE, (3 - r) * CUBE, 0)
+                            MakeCube((c - 3.5) * CUBE, (3 - r) * CUBE, 0)
                         end
                     end
                 end
                 -- E (touching L, no gap)
                 for r = 1, 5 do
-                    for c = 1, 5 do
+                    for c = 1, 3 do
                         if E[r][c] == 1 then
                             MakeCube((c - 0.5) * CUBE, (3 - r) * CUBE, 0)
                         end
