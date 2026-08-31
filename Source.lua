@@ -4058,7 +4058,7 @@ function Library:CreateWindow(...)
             task.spawn(function()
                 local Viewport = Instance.new("ViewportFrame")
                 Viewport.Name = "LELogo"
-                Viewport.Size = UDim2.fromOffset(450, 450)
+                Viewport.Size = UDim2.fromOffset(500, 300)
                 Viewport.Position = UDim2.fromScale(0.5, 0.5)
                 Viewport.AnchorPoint = Vector2.new(0.5, 0.5)
                 Viewport.BackgroundTransparency = 1
@@ -4066,44 +4066,58 @@ function Library:CreateWindow(...)
                 Viewport.Parent = ScreenGui
 
                 local Camera = Instance.new("Camera")
-                Camera.FieldOfView = 45
-                Camera.CFrame = CFrame.new(0, 0, 11)
+                Camera.FieldOfView = 40
+                Camera.CFrame = CFrame.new(0, 0, 9)
                 Viewport.CurrentCamera = Camera
 
                 local Model = Instance.new("Model")
-                Model.Name = "LEBlock"
+                Model.Name = "LELogo"
                 Model.Parent = Viewport
 
-                local Block = Instance.new("Part")
-                Block.Size = Vector3.new(4, 2, 1)
-                Block.Transparency = 0
-                Block.Color = Color3.new(0.15, 0.15, 0.15)
-                Block.Material = Enum.Material.SmoothPlastic
-                Block.Position = Vector3.new(0, 0, 0)
-                Block.Anchored = true
-                Block.Parent = Model
+                local CUBE = 0.5
 
-                local function AddText(faceNormal)
-                    local Gui = Instance.new("BillboardGui")
-                    Gui.Face = faceNormal
-                    Gui.Size = UDim2.fromOffset(8, 4)
-                    Gui.AlwaysOnTop = true
-                    Gui.LightInfluence = 0
-                    Gui.Adornee = Block
-                    Gui.Parent = Block
+                local L = {
+                    {1,0,0,0,0},
+                    {1,0,0,0,0},
+                    {1,0,0,0,0},
+                    {1,0,0,0,0},
+                    {1,1,1,1,1},
+                }
+                local E = {
+                    {1,1,1,1,1},
+                    {1,0,0,0,0},
+                    {1,1,1,1,1},
+                    {1,0,0,0,0},
+                    {1,1,1,1,1},
+                }
 
-                    local Label = Instance.new("TextLabel")
-                    Label.Size = UDim2.fromScale(1, 1)
-                    Label.BackgroundTransparency = 1
-                    Label.Text = "LE"
-                    Label.TextColor3 = Color3.new(1, 1, 1)
-                    Label.TextSize = 150
-                    Label.Font = Enum.Font.GothamBold
-                    Label.Parent = Gui
+                local function MakeCube(x, y, z)
+                    local Part = Instance.new("Part")
+                    Part.Size = Vector3.new(CUBE, CUBE, CUBE)
+                    Part.Color = Color3.new(1, 1, 1)
+                    Part.Anchored = true
+                    Part.Material = Enum.Material.SmoothPlastic
+                    Part.Position = Vector3.new(x, y, z)
+                    Part.Parent = Model
+                    return Part
                 end
 
-                AddText(Enum.NormalId.Front)
-                AddText(Enum.NormalId.Back)
+                -- L (centered: bottom-left at col 1, height centered)
+                for r = 1, 5 do
+                    for c = 1, 5 do
+                        if L[r][c] == 1 then
+                            MakeCube((c - 6) * CUBE, (3 - r) * CUBE, 0)
+                        end
+                    end
+                end
+                -- E (centered, offset right: columns 7-11)
+                for r = 1, 5 do
+                    for c = 1, 5 do
+                        if E[r][c] == 1 then
+                            MakeCube(c * CUBE, (3 - r) * CUBE, 0)
+                        end
+                    end
+                end
 
                 local rotationY = 0
                 local SpinConn
@@ -4116,7 +4130,7 @@ function Library:CreateWindow(...)
                     end
 
                     rotationY = rotationY + dt * 8
-                    Model:PivotTo(CFrame.Angles(math.sin(rotationY * 0.25) * 0.2, rotationY, 0))
+                    Model:PivotTo(CFrame.Angles(math.sin(rotationY * 0.25) * 0.15, rotationY, 0))
                 end)
             end)
         end;
