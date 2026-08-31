@@ -4058,7 +4058,7 @@ function Library:CreateWindow(...)
             task.spawn(function()
                 local Viewport = Instance.new("ViewportFrame")
                 Viewport.Name = "LELogo"
-                Viewport.Size = UDim2.fromOffset(400, 400)
+                Viewport.Size = UDim2.fromOffset(450, 450)
                 Viewport.Position = UDim2.fromScale(0.5, 0.5)
                 Viewport.AnchorPoint = Vector2.new(0.5, 0.5)
                 Viewport.BackgroundTransparency = 1
@@ -4066,8 +4066,8 @@ function Library:CreateWindow(...)
                 Viewport.Parent = ScreenGui
 
                 local Camera = Instance.new("Camera")
-                Camera.FieldOfView = 40
-                Camera.CFrame = CFrame.new(0, 0, 10)
+                Camera.FieldOfView = 45
+                Camera.CFrame = CFrame.new(0, 0, 11)
                 Viewport.CurrentCamera = Camera
 
                 local Model = Instance.new("Model")
@@ -4075,18 +4075,21 @@ function Library:CreateWindow(...)
                 Model.Parent = Viewport
 
                 local Block = Instance.new("Part")
-                Block.Size = Vector3.new(5, 2.5, 0.5)
+                Block.Size = Vector3.new(4, 2, 1)
                 Block.Transparency = 0
-                Block.Color = Color3.new(0.2, 0.2, 0.2)
+                Block.Color = Color3.new(0.15, 0.15, 0.15)
                 Block.Material = Enum.Material.SmoothPlastic
                 Block.Position = Vector3.new(0, 0, 0)
                 Block.Anchored = true
                 Block.Parent = Model
 
                 local function AddText(faceNormal)
-                    local Gui = Instance.new("SurfaceGui")
+                    local Gui = Instance.new("BillboardGui")
                     Gui.Face = faceNormal
+                    Gui.Size = UDim2.fromOffset(8, 4)
+                    Gui.AlwaysOnTop = true
                     Gui.LightInfluence = 0
+                    Gui.Adornee = Block
                     Gui.Parent = Block
 
                     local Label = Instance.new("TextLabel")
@@ -4094,7 +4097,7 @@ function Library:CreateWindow(...)
                     Label.BackgroundTransparency = 1
                     Label.Text = "LE"
                     Label.TextColor3 = Color3.new(1, 1, 1)
-                    Label.TextSize = 96
+                    Label.TextSize = 150
                     Label.Font = Enum.Font.GothamBold
                     Label.Parent = Gui
                 end
@@ -4112,8 +4115,8 @@ function Library:CreateWindow(...)
                         return
                     end
 
-                    rotationY = rotationY + dt * 10
-                    Model:PivotTo(CFrame.Angles(math.sin(rotationY * 0.3) * 0.2, rotationY, 0))
+                    rotationY = rotationY + dt * 8
+                    Model:PivotTo(CFrame.Angles(math.sin(rotationY * 0.25) * 0.2, rotationY, 0))
                 end)
             end)
         end;
