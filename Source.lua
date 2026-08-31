@@ -4104,13 +4104,6 @@ function Library:CreateWindow(...)
                 AddText(Enum.NormalId.Front)
                 AddText(Enum.NormalId.Back)
 
-                local Edge = Instance.new("SelectionBox")
-                Edge.Adornee = Block
-                Edge.Color3 = Color3.new(0, 0, 0)
-                Edge.Transparency = 0.5
-                Edge.LineThickness = 0.05
-                Edge.Parent = Model
-
                 local rotationY = 0
                 local SpinConn
                 SpinConn = RenderStepped:Connect(function(dt)
@@ -4124,7 +4117,6 @@ function Library:CreateWindow(...)
                     rotationY = rotationY + dt * 15
                     Model:PivotTo(CFrame.Angles(math.sin(rotationY * 0.4) * 0.3, rotationY, 0))
                 end)
-            end)
             end)
         end;
         Library:UpdateBlur();
