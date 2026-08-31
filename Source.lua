@@ -4066,58 +4066,50 @@ function Library:CreateWindow(...)
                 Viewport.Parent = ScreenGui
 
                 local Camera = Instance.new("Camera")
-                Camera.FieldOfView = 30
-                Camera.CFrame = CFrame.new(0, 0, 14)
+                Camera.FieldOfView = 35
+                Camera.CFrame = CFrame.new(0, 0, 12)
                 Viewport.CurrentCamera = Camera
 
                 local Model = Instance.new("Model")
                 Model.Name = "LEBlock"
                 Model.Parent = Viewport
 
-                local function MakeLetterBlock()
-                    local Block = Instance.new("Part")
-                    Block.Size = Vector3.new(8, 4, 0.3)
-                    Block.Transparency = 0
-                    Block.Color = Color3.new(1, 1, 1)
-                    Block.Material = Enum.Material.Neon
-                    Block.Position = Vector3.new(0, 0, 0)
-                    Block.Anchored = true
-                    Block.Parent = Model
+                local Block = Instance.new("Part")
+                Block.Size = Vector3.new(6, 3, 1)
+                Block.Transparency = 0
+                Block.Color = Color3.new(0.95, 0.95, 0.95)
+                Block.Material = Enum.Material.SmoothPlastic
+                Block.Position = Vector3.new(0, 0, 0)
+                Block.Anchored = true
+                Block.Parent = Model
 
-                    local function MakeFace(faceNormal, flip)
-                        local Gui = Instance.new("SurfaceGui")
-                        Gui.Face = faceNormal
-                        Gui.LightInfluence = 0
-                        Gui.SizingMode = Enum.SurfaceGuiSizingMode.FixedSize
-                        Gui.CanvasSize = Vector2.new(800, 400)
-                        Gui.Parent = Block
+                local function AddText(faceNormal)
+                    local Gui = Instance.new("SurfaceGui")
+                    Gui.Face = faceNormal
+                    Gui.LightInfluence = 0
+                    Gui.CanvasSize = Vector2.new(512, 256)
+                    Gui.Parent = Block
 
-                        local Label = Instance.new("TextLabel")
-                        Label.Size = UDim2.fromScale(1, 1)
-                        Label.BackgroundTransparency = 1
-                        Label.Text = "LE"
-                        Label.TextColor3 = Color3.new(1, 1, 1)
-                        Label.TextStrokeTransparency = 0
-                        Label.TextStrokeColor3 = Color3.new(0, 0, 0)
-                        Label.TextScaled = true
-                        Label.Font = Enum.Font.GothamBold
-                        Label.Rotation = flip and 180 or 0
-                        Label.Parent = Gui
-                    end
-
-                    MakeFace(Enum.NormalId.Front, false)
-                    MakeFace(Enum.NormalId.Back, true)
-
-                    local Edge = Instance.new("SelectionBox")
-                    Edge.Adornee = Block
-                    Edge.Color3 = Color3.new(1, 1, 1)
-                    Edge.Transparency = 0
-                    Edge.LineThickness = 0.04
-                    Edge.SurfaceTransparency = 0.6
-                    Edge.Parent = Model
+                    local Label = Instance.new("TextLabel")
+                    Label.Size = UDim2.fromScale(1, 1)
+                    Label.BackgroundTransparency = 1
+                    Label.Text = "LE"
+                    Label.TextColor3 = Color3.new(0, 0, 0)
+                    Label.TextStrokeTransparency = 0
+                    Label.TextScaled = true
+                    Label.Font = Enum.Font.GothamBold
+                    Label.Parent = Gui
                 end
 
-                MakeLetterBlock()
+                AddText(Enum.NormalId.Front)
+                AddText(Enum.NormalId.Back)
+
+                local Edge = Instance.new("SelectionBox")
+                Edge.Adornee = Block
+                Edge.Color3 = Color3.new(0, 0, 0)
+                Edge.Transparency = 0.5
+                Edge.LineThickness = 0.05
+                Edge.Parent = Model
 
                 local rotationY = 0
                 local SpinConn
@@ -4129,9 +4121,10 @@ function Library:CreateWindow(...)
                         return
                     end
 
-                    rotationY = rotationY + dt * 28
-                    Model:PivotTo(CFrame.Angles(0, rotationY, 0))
+                    rotationY = rotationY + dt * 15
+                    Model:PivotTo(CFrame.Angles(math.sin(rotationY * 0.4) * 0.3, rotationY, 0))
                 end)
+            end)
             end)
         end;
         Library:UpdateBlur();
