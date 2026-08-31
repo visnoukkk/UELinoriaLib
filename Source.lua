@@ -4102,19 +4102,19 @@ function Library:CreateWindow(...)
                     return Part
                 end
 
-                -- L (centered: bottom-left at col 1, height centered)
+                -- L (centered)
                 for r = 1, 5 do
                     for c = 1, 5 do
                         if L[r][c] == 1 then
-                            MakeCube((c - 6) * CUBE, (3 - r) * CUBE, 0)
+                            MakeCube((c - 5.5) * CUBE, (3 - r) * CUBE, 0)
                         end
                     end
                 end
-                -- E (centered, offset right: columns 7-11)
+                -- E (touching L, no gap)
                 for r = 1, 5 do
                     for c = 1, 5 do
                         if E[r][c] == 1 then
-                            MakeCube(c * CUBE, (3 - r) * CUBE, 0)
+                            MakeCube((c - 0.5) * CUBE, (3 - r) * CUBE, 0)
                         end
                     end
                 end
@@ -4129,8 +4129,8 @@ function Library:CreateWindow(...)
                         return
                     end
 
-                    rotationY = rotationY + dt * 8
-                    Model:PivotTo(CFrame.Angles(math.sin(rotationY * 0.25) * 0.15, rotationY, 0))
+                    rotationY = rotationY + dt * 4
+                    Model:PivotTo(CFrame.Angles(math.sin(rotationY * 0.2) * 0.1, rotationY, 0))
                 end)
             end)
         end;
