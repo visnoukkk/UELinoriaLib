@@ -4074,7 +4074,7 @@ function Library:CreateWindow(...)
                 Model.Name = "LELogo"
                 Model.Parent = Viewport
 
-                local CUBE = 0.5
+                local CUBE = 0.3
 
                 local L = {
                     {1,0,0},
